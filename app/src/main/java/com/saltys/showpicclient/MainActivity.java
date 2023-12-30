@@ -11,6 +11,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,20 +21,29 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     TextView displayName,userImageCounter;
@@ -42,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseFirestore db;
     RecyclerView imagesRecyclerView;
     RecyclerImageViewAdapter recyclerImageViewAdapter;
+    CircleImageView circleImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         imagesRecyclerView = findViewById(R.id.imagesRecyclerView);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        circleImageView = findViewById(R.id.userAvatar);
 
         setUserData();
 
@@ -69,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null && user.getPhotoUrl() != null){
+            Glide.with(MainActivity.this)
+                    .load(user.getPhotoUrl())
+                    .into(circleImageView);
+        }
         DocumentReference docRef = db.collection("Users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
