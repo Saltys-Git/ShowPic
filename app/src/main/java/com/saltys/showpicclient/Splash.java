@@ -61,7 +61,6 @@ public class Splash extends AppCompatActivity {
                 logo.startAnimation(aniSlide);
                 logo.setVisibility(View.GONE);
                 tagline.setVisibility(View.GONE);
-                Toast.makeText(Splash.this, "Show", Toast.LENGTH_SHORT).show();
                 new Handler( ).postDelayed(new Runnable() {
                     @Override
                     public void run() {
