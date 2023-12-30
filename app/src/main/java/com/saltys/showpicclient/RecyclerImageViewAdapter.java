@@ -36,6 +36,7 @@ public class RecyclerImageViewAdapter extends RecyclerView.Adapter<RecyclerImage
         Glide.with(context)
                 .load(urlArrayList.get(position))
                 .into(holder.imageView);
+
     }
 
     @Override
