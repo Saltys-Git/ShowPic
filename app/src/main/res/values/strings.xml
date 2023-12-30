@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Show Pic Client</string>
+    <string name="tagline">Limitless Image Sharing</string>
+    <string name="log_in">Log in</string>
+</resources>

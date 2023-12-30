@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "518962391297",
+    "project_id": "showpic-5abcb",
+    "storage_bucket": "showpic-5abcb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518962391297:android:45347c61242478d41bd300",
+        "android_client_info": {
+          "package_name": "com.saltys.showpicclient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBc5wWg8ykBLp_sLDB-rprfY77USSweosc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
