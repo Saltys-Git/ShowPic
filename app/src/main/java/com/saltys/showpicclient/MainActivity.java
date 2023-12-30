@@ -37,7 +37,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     TextView displayName,userImageCounter;
-    FloatingActionButton uploadButton;
     ImageView settingsButton;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -51,21 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
         displayName = findViewById(R.id.userDisplayName);
         userImageCounter = findViewById(R.id.userImageCounter);
-        uploadButton = findViewById(R.id.floating_upload_button);
         settingsButton = findViewById(R.id.settingsButton);
         imagesRecyclerView = findViewById(R.id.imagesRecyclerView);
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
         setUserData();
-
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent( getApplicationContext(), UploadScreen.class );
-                startActivity( intent );
-            }
-        });
 
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
@@ -79,17 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserData() {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user!=null){
-            displayName.setText(Objects.requireNonNull(user.getDisplayName()).toUpperCase());
-        }
-        DocumentReference docRef = db.collection("Users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        DocumentReference docRef = db.collection("Users").document(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        displayName.setText(Objects.requireNonNull(document.getString("Name").toUpperCase()));
                         Object Images = document.get("Images");
                         if (Images != null && Images instanceof List) {
                             List<?> imageList = (List<?>) Images;
